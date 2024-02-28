@@ -1,8 +1,10 @@
 import React from "react";
 import mwallet from "../mwallet.png";
 import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
 
   return (
     <>
@@ -11,11 +13,13 @@ function Home() {
         <h2>Hey There 🦅</h2>
         <h4 className="h4">Welcome to our Web3 Wallet 🦅</h4>
         <Button
+          onClick={()=>navigate("/yourwallet")}
           className="frontPageButton"
           type="primary">
           Create a Wallet
         </Button>
         <Button
+        onClick={()=>navigate("/recover")}
           className="frontPageButton"
           type="default">
           Sign In with Seed Phrase
