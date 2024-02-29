@@ -8,6 +8,9 @@ import CreateAccount from "./components/CreateAccount";
 import RecoverAccount from "./components/RecoverAccount";
 import WalletView from "./components/WalletView";
 
+
+//chains.js dosyasında rpc url lazım 1:12:00
+//API key .env dosyasında düzeltilmesi lazım.
 function App() {
   const [wallet, setWallet] = useState(null);
   const [seedPhrase, setSeedPhrase] = useState(null);  

@@ -8,8 +8,31 @@ import { ethers } from "ethers";
 const {TextArea} = Input;
 
 function RecoverAccount(
+
   {setWallet, setSeedPhrase}
 ) {
+  const navigate = useNavigate();
+  const [typedSeed, setTypedSeed] = useState("");
+  const [nonValid, setNonValid] = useState(false);
+
+  function seedAdjust(e){
+    setNonValid(false);
+    setTypedSeed(e.target.value);
+  }
+
+  function recoverWallet(){
+    let recoveredWallet;
+    try {
+      recoveredWallet = ethers.Wallet.fromPhrase(typedSeed);
+    } catch(e) {
+      setNonValid(true);
+      return;
+    }
+    setSeedPhrase(typedSeed);
+    setWallet(recoveredWallet.address);
+    navigate("/yourwallet");
+    return;
+  } 
 
   return (
     <>
@@ -22,10 +45,26 @@ function RecoverAccount(
             </div>
           </div>
           <TextArea
+          value={typedSeed}
+          onChange={seedAdjust}
           rows={4}
           className="seedPhraseContainer"
           placeholder="Type your seed phrase here..."
           />
+          <Button
+          disabled={
+            typedSeed.split(" ").length !== 12 || typedSeed.slice(-1) === " "
+          }
+          className="frontPageButton"
+          type="primary"
+          onClick={()=>recoverWallet()}
+          >
+            Recover Wallet
+          </Button>
+          {nonValid && <p style={{color:"red"}}>Invalid Seed Phrase</p>}
+          <p className="frontPageButton" onClick={() => navigate("/")}>
+            <span>Back Home</span>
+          </p>
       </div>
     </>
   );
